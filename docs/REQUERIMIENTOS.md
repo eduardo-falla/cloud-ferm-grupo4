@@ -15,32 +15,7 @@ El alcance de este proyecto se limita al **componente de software en la nube** (
 **Descripción:**  
 Permitir que los usuarios visualicen en tiempo real las variables críticas del proceso de fermentación de cacao a través de un panel web centralizado (dashboard), utilizando la telemetría recibida desde los dispositivos de campos.
 
----
 
-### Épica 2: Actuación y control remoto del proceso
-
-**Descripción:**  
-Proporcionar una interfaz en la aplicación web para enviar comandos a los dispositivos de campo (mezclado, reinicio, configuración de umbrales), de manera que el proceso de fermentación pueda ser gestionado a distancia.
-
----
-
-### Épica 3: Gestión de lotes y trazabilidad histórica
-
-**Descripción:**  
-Registrar los datos de cada lote de cacao, almacenar el historial de telemetría y eventos de control en una base de datos en la nube, y ofrecer la consulta/exportación de esa información para análisis y auditoría.
-
----
-
-### Épica 4: Administración de usuarios y configuración del sistema
-
-**Descripción:**  
-Gestionar usuarios, roles y parámetros globales del sistema, incluyendo permisos de acceso, registro de dispositivos y parámetros de operación, asegurando la seguridad y mantenibilidad de la plataforma.
-
----
-
-## 3. Características (Features) por épica e Historias de Usuario
-
----
 
 ## ÉPICA 1 – Monitoreo y visualización en tiempo real
 
@@ -89,6 +64,13 @@ Mostrar en la aplicación web la última imagen capturada por el módulo de camp
 
 ---
 
+
+### Épica 2: Actuación y control remoto del proceso
+
+**Descripción:**  
+Proporcionar una interfaz en la aplicación web para enviar comandos a los dispositivos de campo (mezclado, reinicio, configuración de umbrales), de manera que el proceso de fermentación pueda ser gestionado a distancia.
+
+
 ## ÉPICA 2 – Actuación y control remoto
 
 ### Feature 2.1 – Envío de comandos de mezclado (volteo)
@@ -134,4 +116,26 @@ Definir umbrales máximos/mínimos de temperatura y humedad, así como los canal
 
 3. **Como** administrador, **quiero** configurar los correos electrónicos o teléfonos de contacto para cada tipo de alerta **para** asegurar que la información llegue a las personas correctas.
 
+
 ---
+
+### Épica 3: Gestión de lotes y trazabilidad histórica
+
+**Descripción:**  
+Registrar los datos de cada lote de cacao, almacenar el historial de telemetría y eventos de control en una base de datos en la nube, y ofrecer la consulta/exportación de esa información para análisis y auditoría.
+
+---
+
+### Épica 4: Administración de usuarios y configuración del sistema
+
+**Descripción:**  
+Gestionar usuarios, roles y parámetros globales del sistema, incluyendo permisos de acceso, registro de dispositivos y parámetros de operación, asegurando la seguridad y mantenibilidad de la plataforma.
+
+---
+
+## 3. Características (Features) por épica e Historias de Usuario
+
+---
+
+
+
