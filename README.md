@@ -13,10 +13,10 @@ Este proyecto corresponde al curso **Capstone / Administración de Proyectos de 
 
 ## Integrantes del equipo
 
-- Nombre 1 – Rol (ej. Líder técnico)
-- Nombre 2 – Rol (ej. Analista de requisitos)
-- Nombre 3 – Rol
-- Nombre 4 – Rol
+- Eduardo Falla Delgado – Rol Líder técnico
+- Myke Perez Arzapalo – Rol Analista de requisitos
+- Diana Aragon Vilela – Rol Product owner
+
 
 ## Enlace a la documentación
 
