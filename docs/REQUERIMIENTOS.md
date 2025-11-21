@@ -4,91 +4,107 @@
 
 CLOUD-FERM WEB es un **Sistema de Información y Gestión de Trazabilidad** diseñado para la Finca Don Valentín. Su objetivo es digitalizar el proceso de fermentación de cacao, sustituyendo las bitácoras manuales en papel por una aplicación web responsiva.
 
-El sistema permite al productor y a los operarios registrar manualmente las variables críticas (temperatura, humedad), documentar las actividades de control (volteos/mezclas) y visualizar el comportamiento histórico de los lotes mediante gráficos estadísticos.
+El sistema permite al productor gestionar lotes asignando responsables específicos y permite a los operarios registrar manualmente las variables críticas (temperatura, humedad) y actividades de control.
 
-El alcance de este proyecto es **exclusivamente de software** (Aplicación Web), utilizando una arquitectura moderna con **Angular (Frontend)**, **Java Spring Boot (Backend)** y **Supabase (Base de Datos)**. No incluye integración con sensores físicos ni hardware IoT.
+El alcance es **exclusivamente de software** (Aplicación Web), utilizando **Angular (Frontend)**, **Java Spring Boot (Backend)** y **Supabase (Base de Datos)**.
 
 ---
 
-## 2. Épicas
+## 2. Lista Formal de Requerimientos del Sistema
+
+Esta sección detalla las capacidades técnicas y restricciones que el sistema debe cumplir, sirviendo como base para el desarrollo y las pruebas de aceptación.
+
+### 2.1 Requerimientos Funcionales (RF)
+
+| ID | Módulo | Descripción | Prioridad |
+| :--- | :--- | :--- | :--- |
+| **RF-001** | Seguridad | El sistema debe autenticar a los usuarios mediante credenciales (correo/contraseña) encriptadas. | Alta |
+| **RF-002** | Seguridad | El sistema debe gestionar dos roles de usuario: **Administrador** (Acceso total) y **Operario** (Acceso restringido a registro). | Alta |
+| **RF-003** | Lotes | El sistema debe permitir al Administrador crear un nuevo lote registrando: Código único, Variedad, Peso y **asignando un Operario Responsable** de la lista de usuarios. | **Crítica** |
+| **RF-004** | Lotes | El sistema debe permitir cambiar el estado de un lote (En Proceso -> Finalizado) para bloquear ediciones futuras. | Media |
+| **RF-005** | Bitácora | El sistema debe proveer un formulario para que el Operario registre manualmente la **Temperatura de la Masa**, **Temperatura Ambiente** y **Humedad Relativa**. | **Crítica** |
+| **RF-006** | Bitácora | El sistema debe permitir al Operario registrar la ejecución de un **Volteo/Mezcla**, guardando automáticamente la fecha y hora del registro. | Alta |
+| **RF-007** | Bitácora | El sistema debe permitir ingresar observaciones de texto libre (cualitativas) asociadas a un registro diario. | Media |
+| **RF-008** | Visualización | El sistema debe generar un gráfico de líneas (Curva de Fermentación) mostrando la evolución de la temperatura vs. tiempo por lote. | Alta |
+| **RF-009** | Reportes | El sistema debe permitir la exportación de los datos de un lote en formatos **Excel (.xlsx)** y **PDF**. | Baja |
+
+### 2.2 Requerimientos No Funcionales (RNF)
+
+| ID | Atributo | Descripción |
+| :--- | :--- | :--- |
+| **RNF-001** | **Responsividad** | La interfaz de usuario debe ser *Mobile-First*, garantizando una visualización correcta y funcional en dispositivos móviles (Android/iOS) utilizados en campo. |
+| **RNF-002** | **Arquitectura** | El sistema debe seguir una arquitectura desacoplada tipo **API REST**, separando el Frontend (Angular) del Backend (Spring Boot). |
+| **RNF-003** | **Persistencia** | Todos los datos transaccionales deben almacenarse en una base de datos relacional PostgreSQL gestionada por **Supabase**. |
+| **RNF-004** | **Seguridad** | Las contraseñas de los usuarios deben almacenarse utilizando un algoritmo de hash robusto (ej. BCrypt). |
+| **RNF-005** | **Disponibilidad** | El sistema debe estar disponible para consulta y registro en modalidad 24/7 (SaaS). |
+| **RNF-006** | **Usabilidad** | Los campos de entrada numéricos en la versión móvil deben activar el teclado numérico del dispositivo para facilitar la captura de datos. |
+
+---
+
+## 3. Épicas
 
 ### Épica 1: Gestión de Seguridad y Usuarios
 **Descripción:**
-Garantizar que solo el personal autorizado pueda acceder al sistema, diferenciando entre quienes administran el negocio y quienes operan en campo.
+Garantizar que solo el personal autorizado acceda al sistema y asegurar que existan cuentas de operarios registradas para poder asignarles responsabilidades sobre los lotes.
 
-### Épica 2: Gestión de Lotes de Producción
+### Épica 2: Gestión de Lotes y Asignación de Responsables
 **Descripción:**
-Permitir la creación, seguimiento y cierre de lotes de cacao, asignando códigos únicos y características específicas (variedad, peso) para garantizar la trazabilidad desde el inicio.
+Permitir la creación de lotes de cacao, donde el Administrador no solo define las características del grano, sino que **designa explícitamente qué operario es el responsable** de dicho lote.
 
 ### Épica 3: Bitácora Digital (Registro Manual)
 **Descripción:**
-Proveer interfaces amigables (optimizadas para móviles) para que los operarios ingresen diariamente los datos de las variables ambientales y las actividades de manejo realizadas en cada fermentador.
+Proveer interfaces móviles para que los operarios ingresen diariamente los datos de las variables ambientales y las actividades de manejo realizadas en los lotes bajo su responsabilidad.
 
 ### Épica 4: Visualización y Reportes
 **Descripción:**
-Transformar los datos ingresados manualmente en información visual (gráficos y tablas) para la toma de decisiones y permitir la exportación de datos para auditoría o venta.
+Transformar los datos en gráficos de curvas de fermentación y permitir la exportación de datos para auditoría.
 
 ---
 
-## 3. Características (Features) e Historias de Usuario
+## 4. Características (Features) e Historias de Usuario
 
 ### ÉPICA 1 – Gestión de Seguridad y Usuarios
 
-#### Feature 1.1 – Autenticación y Roles
-**Descripción:** Sistema de login seguro y diferenciación de permisos.
+#### Feature 1.1 – Autenticación y Administración de Personal
+**Descripción:** Login seguro y gestión del directorio de empleados.
 
-* **HU-01:** **Como** administrador, **quiero** iniciar sesión con un usuario y contraseña encriptada **para** proteger la información confidencial de la finca.
-* **HU-02:** **Como** administrador, **quiero** crear cuentas para los operarios con permisos limitados (solo registro) **para** evitar que modifiquen configuraciones críticas o eliminen lotes por error.
+* **HU-01:** **Como** administrador, **quiero** iniciar sesión de forma segura **para** acceder al panel de gestión.
+* **HU-02:** **Como** administrador, **quiero** registrar, editar o desactivar cuentas de operarios (con Nombre y Apellido) **para** mantener una lista actualizada del personal disponible para asignar a los lotes.
 
 ---
 
-### ÉPICA 2 – Gestión de Lotes de Producción
+### ÉPICA 2 – Gestión de Lotes y Asignación
 
-#### Feature 2.1 – Administración de Lotes (CRUD)
-**Descripción:** Funcionalidad para dar de alta nuevos procesos de fermentación.
+#### Feature 2.1 – Alta y Asignación de Lotes
+**Descripción:** Configuración inicial del proceso productivo.
 
-* **HU-03:** **Como** productor (Don Valentín), **quiero** registrar un nuevo lote ingresando su código único, variedad de cacao (ej. CCN51) y peso bruto **para** iniciar el seguimiento de una nueva cosecha.
-* **HU-04:** **Como** productor, **quiero** cerrar un lote cuando el proceso de fermentación haya terminado **para** que pase al histórico y no permita más registros de datos.
-* **HU-05:** **Como** productor, **quiero** ver una lista de todos los lotes "En Proceso" **para** saber rápidamente cuántos cajones están activos actualmente.
+* **HU-03 (Relacionado a RF-003):** **Como** productor (Admin), **quiero** crear un nuevo lote ingresando su Código, Variedad, Peso y **seleccionar de una lista desplegable al Operario Responsable** **para** delegar oficialmente la supervisión de ese cajón a una persona específica.
+* **HU-04:** **Como** productor, **quiero** editar la información del lote (incluyendo cambiar al responsable si es necesario) **para** corregir errores o gestionar cambios de turno.
+* **HU-05:** **Como** productor, **quiero** cerrar un lote finalizado **para** bloquear la edición de datos y archivarlo en el histórico.
 
 ---
 
 ### ÉPICA 3 – Bitácora Digital (Registro Manual)
 
 #### Feature 3.1 – Registro de Variables Ambientales
-**Descripción:** Formulario web para el ingreso de datos tomados con instrumentos manuales (termómetros/higrómetros).
+**Descripción:** Formulario web optimizado para carga de datos en campo.
 
-* **HU-06:** **Como** operario (Jarvis), **quiero** seleccionar un lote activo desde mi celular y registrar la Temperatura de la Masa (°C) y la Temperatura Ambiente **para** guardar la evidencia del comportamiento térmico del día.
-* **HU-07:** **Como** operario, **quiero** registrar el porcentaje de Humedad (%) leído del instrumento **para** completar la ficha técnica del día.
-* **HU-08:** **Como** operario, **quiero** que el sistema registre automáticamente la fecha y hora de mi reporte **para** evitar errores de transcripción temporal.
+* **HU-06:** **Como** operario, **quiero** visualizar una lista de los lotes que tengo asignados (o todos los activos) **para** seleccionar rápidamente aquel sobre el cual voy a reportar.
+* **HU-07:** **Como** operario, **quiero** registrar manualmente la **Temperatura de la Masa (°C)**, **Temperatura Ambiente** y **Humedad (%)** **para** digitalizar la lectura del termómetro/higrómetro.
+* **HU-08:** **Como** operario, **quiero** que el sistema guarde automáticamente la fecha/hora y mi identidad al guardar el registro **para** asegurar la trazabilidad de quién midió y cuándo.
 
-#### Feature 3.2 – Registro de Actividades (Volteo)
-**Descripción:** Registro de las acciones físicas realizadas sobre el cacao.
+#### Feature 3.2 – Registro de Actividades
+**Descripción:** Documentación de acciones físicas.
 
-* **HU-09:** **Como** operario, **quiero** marcar en el sistema una casilla o botón que indique que se realizó el "Volteo" o "Mezcla" del cajón **para** certificar que se cumplió con la oxigenación requerida.
-* **HU-10:** **Como** operario, **quiero** agregar observaciones de texto libre (ej. "Olor a vinagre", "Presencia de insectos") **para** reportar incidencias cualitativas que los números no reflejan.
+* **HU-09:** **Como** operario, **quiero** registrar la ejecución de un **"Volteo/Mezcla"** **para** confirmar que se realizó la oxigenación del grano según el cronograma.
+* **HU-10:** **Como** operario, **quiero** añadir observaciones cualitativas (texto) **para** alertar sobre olores, colores o incidencias visuales en el grano.
 
 ---
 
 ### ÉPICA 4 – Visualización y Reportes
 
-#### Feature 4.1 – Gráficas de Tendencia
-**Descripción:** Visualización de la curva de fermentación basada en los datos históricos.
+#### Feature 4.1 – Análisis de Calidad
+**Descripción:** Herramientas visuales para el productor.
 
-* **HU-11:** **Como** productor, **quiero** seleccionar un lote y ver un gráfico de línea de "Temperatura vs. Tiempo" **para** analizar si la curva de fermentación es la adecuada (fase anaeróbica/aeróbica).
-* **HU-12:** **Como** productor, **quiero** ver una tabla resumen con todos los registros diarios de un lote específico **para** revisar los datos en detalle.
-
-#### Feature 4.2 – Exportación de Datos
-**Descripción:** Generación de archivos para uso externo.
-
-* **HU-13:** **Como** productor, **quiero** descargar el historial completo de un lote cerrado en formato Excel (.xlsx) o PDF **para** compartirlo con clientes o certificar la calidad del proceso.
-
----
-
-## 4. Requerimientos No Funcionales (Técnicos)
-
-1.  **Responsividad (Mobile-First):** La aplicación web (Angular) debe visualizarse y operar correctamente en dispositivos móviles (Android/iOS) para facilitar la entrada de datos en campo.
-2.  **Arquitectura:** El sistema debe seguir una arquitectura desacoplada con API REST en Java Spring Boot y Frontend en Angular.
-3.  **Persistencia:** Todos los datos deben almacenarse de forma segura en Supabase (PostgreSQL).
-4.  **Usabilidad:** Los formularios de registro deben tener botones grandes y validaciones numéricas para minimizar errores de dedo por parte de los operarios.
-5.  **Disponibilidad:** El sistema debe estar disponible 24/7 para consulta y registro.
+* **HU-11:** **Como** productor, **quiero** ver la **Curva de Fermentación** (Gráfico Temp vs. Tiempo) de un lote específico **para** evaluar si el operario asignado está manteniendo el proceso en rangos óptimos.
+* **HU-12:** **Como** productor, **quiero** exportar la ficha técnica del lote en **Excel/PDF** **para** entregarla al comprador o cooperativa como garantía de calidad.
