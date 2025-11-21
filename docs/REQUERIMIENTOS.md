@@ -20,7 +20,7 @@ Esta sección detalla las capacidades técnicas y restricciones que el sistema d
 | :--- | :--- | :--- | :--- |
 | **RF-001** | Seguridad | El sistema debe autenticar a los usuarios mediante credenciales (correo/contraseña) encriptadas. | Alta |
 | **RF-002** | Seguridad | El sistema debe gestionar dos roles de usuario: **Administrador** (Acceso total) y **Operario** (Acceso restringido a registro). | Alta |
-| **RF-003** | Lotes | El sistema debe permitir al Administrador crear un nuevo lote registrando: Código único, Variedad, Peso y **asignando un Operario Responsable** de la lista de usuarios. | **Crítica** |
+| **RF-003** | Lotes | El sistema debe permitir al Administrador crear un nuevo lote registrando: Código único, Variedad, Tiempo esti. de fermentación ,Peso y **asignando un Operario Responsable** de la lista de usuarios. | **Crítica** |
 | **RF-004** | Lotes | El sistema debe permitir cambiar el estado de un lote (En Proceso -> Finalizado) para bloquear ediciones futuras. | Media |
 | **RF-005** | Bitácora | El sistema debe proveer un formulario para que el Operario registre manualmente la **Temperatura de la Masa**, **Temperatura Ambiente** y **Humedad Relativa**. | **Crítica** |
 | **RF-006** | Bitácora | El sistema debe permitir al Operario registrar la ejecución de un **Volteo/Mezcla**, guardando automáticamente la fecha y hora del registro. | Alta |
