@@ -1,0 +1,65 @@
+<div class="container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Nuevo Registro Diario</mat-card-title>
+            <mat-card-subtitle>Ingresar datos de fermentación</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="recordForm" (ngSubmit)="onSubmit()">
+
+                <h3>Temperaturas (°C)</h3>
+                <div class="row">
+                    <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Temp Masa</mat-label>
+                        <input matInput type="number" formControlName="tempMass" placeholder="45.5">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Temp Ambiente</mat-label>
+                        <input matInput type="number" formControlName="tempAmbient" placeholder="28.0">
+                    </mat-form-field>
+                </div>
+
+                <h3>Humedad (%)</h3>
+                <div class="row">
+                    <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Humedad Masa</mat-label>
+                        <input matInput type="number" formControlName="humidityMass" placeholder="60">
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="half-width">
+                        <mat-label>Humedad Ambiente</mat-label>
+                        <input matInput type="number" formControlName="humidityAmbient" placeholder="80">
+                    </mat-form-field>
+                </div>
+
+                <h3>Química</h3>
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Nivel de pH</mat-label>
+                        <input matInput type="number" formControlName="phLevel" placeholder="4.5" step="0.1">
+                    </mat-form-field>
+                </div>
+
+                <h3>Actividades</h3>
+                <div class="row checkbox-row">
+                    <mat-checkbox formControlName="isTurned">¿Volteado / Mezclado?</mat-checkbox>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Observaciones</mat-label>
+                        <textarea matInput formControlName="operatorObservations" rows="3"
+                            placeholder="Olor, color, etc."></textarea>
+                    </mat-form-field>
+                </div>
+
+                <div class="actions">
+                    <button mat-button type="button" routerLink="/dashboard">Cancelar</button>
+                    <button mat-raised-button color="primary" type="submit"
+                        [disabled]="recordForm.invalid || isLoading">
+                        Guardar Registro
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,21 @@
+<mat-toolbar color="primary" *ngIf="isLoggedIn" class="main-toolbar">
+  <span class="brand">CloudFerm Web</span>
+
+  <div class="nav-links">
+    <a mat-button routerLink="/dashboard">Panel Principal</a>
+    <a mat-button routerLink="/batches/history">Historial</a>
+    <a mat-button *ngIf="isAdmin" routerLink="/admin/catalogs">Configuración</a>
+  </div>
+
+  <span class="spacer"></span>
+
+  <div class="user-info">
+    <span class="user-name">{{ userName }}</span>
+    <span class="user-role">{{ userRole }}</span>
+  </div>
+
+  <button mat-icon-button (click)="logout()" matTooltip="Salir" class="logout-btn">
+    <mat-icon>exit_to_app</mat-icon>
+  </button>
+</mat-toolbar>
+<router-outlet></router-outlet>

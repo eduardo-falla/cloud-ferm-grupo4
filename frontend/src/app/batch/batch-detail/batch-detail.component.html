@@ -1,0 +1,75 @@
+<div class="container">
+    <div class="header">
+        <div>
+            <h1>Detalles del Lote</h1>
+            <p *ngIf="batch" class="batch-info">
+                <strong>{{batch.code}}</strong> - {{batch.cocoaVariety}} -
+                <span [class.status-active]="batch.status === 'ACTIVE'"
+                    [class.status-finished]="batch.status === 'FINISHED'">
+                    {{batch.status}}
+                </span>
+            </p>
+        </div>
+        <div class="actions">
+            <button mat-raised-button color="warn" *ngIf="batch?.status === 'ACTIVE'" (click)="closeBatch()"
+                style="margin-right: 10px;">
+                <mat-icon>lock</mat-icon> Cerrar Lote
+            </button>
+            <button mat-raised-button color="accent" *ngIf="isAdmin" (click)="downloadReport()"
+                style="margin-right: 10px;">
+                <mat-icon>download</mat-icon> Descargar Reporte
+            </button>
+            <button mat-raised-button color="primary" (click)="addRecord()">
+                <mat-icon>add</mat-icon> Nuevo Registro
+            </button>
+        </div>
+    </div>
+
+    <mat-tab-group (selectedTabChange)="onTabChange($event)">
+        <mat-tab label="Curva de Temperatura">
+            <div class="chart-container">
+                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [legend]="lineChartLegend"
+                    [type]="'line'">
+                </canvas>
+            </div>
+        </mat-tab>
+        <mat-tab label="Curva de pH">
+            <div class="chart-container">
+                <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [legend]="lineChartLegend"
+                    [type]="'line'">
+                </canvas>
+            </div>
+        </mat-tab>
+        <mat-tab label="Historial de Registros">
+            <table mat-table [dataSource]="records" class="mat-elevation-z8">
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> Fecha </th>
+                    <td mat-cell *matCellDef="let record"> {{record.recordedAt | date:'short'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tempMass">
+                    <th mat-header-cell *matHeaderCellDef> Temp Masa </th>
+                    <td mat-cell *matCellDef="let record"> {{record.tempMass}} °C </td>
+                </ng-container>
+
+                <ng-container matColumnDef="tempAmbient">
+                    <th mat-header-cell *matHeaderCellDef> Temp Amb </th>
+                    <td mat-cell *matCellDef="let record"> {{record.tempAmbient}} °C </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ph">
+                    <th mat-header-cell *matHeaderCellDef> pH </th>
+                    <td mat-cell *matCellDef="let record"> {{record.phLevel}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Observaciones </th>
+                    <td mat-cell *matCellDef="let record"> {{record.operatorObservations}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </mat-tab>
+    </mat-tab-group>
+</div>

@@ -1,0 +1,73 @@
+<div class="container">
+    <div class="header">
+        <h1>Fermentaciones Activas</h1>
+        <div class="actions">
+            <button mat-raised-button color="primary" routerLink="/batches/create" *ngIf="isAdmin">
+                <mat-icon>add</mat-icon> Nuevo Lote
+            </button>
+            <button mat-raised-button color="accent" routerLink="/batches/history" style="margin-left: 10px;">
+                <mat-icon>history</mat-icon> Historial
+            </button>
+            <button mat-raised-button color="warn" *ngIf="isAdmin" routerLink="/users/create"
+                style="margin-left: 10px;">
+                <mat-icon>person_add</mat-icon> Nuevo Usuario
+            </button>
+        </div>
+    </div>
+
+    <mat-card *ngIf="batches.length === 0" class="empty-state">
+        <mat-card-content>
+            <p>No se encontraron fermentaciones activas.</p>
+        </mat-card-content>
+    </mat-card>
+
+    <table mat-table [dataSource]="batches" *ngIf="batches.length > 0" class="mat-elevation-z8">
+
+        <!-- Code Column -->
+        <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef> Código </th>
+            <td mat-cell *matCellDef="let batch"> {{batch.code}} </td>
+        </ng-container>
+
+        <!-- Variety Column -->
+        <ng-container matColumnDef="variety">
+            <th mat-header-cell *matHeaderCellDef> Variedad </th>
+            <td mat-cell *matCellDef="let batch"> {{batch.cocoaVariety}} </td>
+        </ng-container>
+
+        <!-- Start Date Column -->
+        <ng-container matColumnDef="startDate">
+            <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
+            <td mat-cell *matCellDef="let batch"> {{batch.startDate | date}} </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell *matCellDef="let batch">
+                <span class="status-badge" [class.active]="batch.status === 'ACTIVE'">
+                    {{batch.status}}
+                </span>
+            </td>
+        </ng-container>
+
+        <!-- Operator Column -->
+        <ng-container matColumnDef="operator">
+            <th mat-header-cell *matHeaderCellDef> Operador </th>
+            <td mat-cell *matCellDef="let batch"> {{batch.operatorName}} </td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
+            <td mat-cell *matCellDef="let batch">
+                <button mat-icon-button color="primary" (click)="viewDetails(batch)">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

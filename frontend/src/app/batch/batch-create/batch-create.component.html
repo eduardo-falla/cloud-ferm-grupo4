@@ -1,0 +1,74 @@
+<div class="container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Crear Nuevo Lote</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="batchForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Código del Lote</mat-label>
+                        <input matInput formControlName="code" placeholder="L-2025-001">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Variedad de Cacao</mat-label>
+                        <mat-select formControlName="varietyId">
+                            <mat-option *ngFor="let v of varieties" [value]="v.id">
+                                {{v.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Finca / Origen</mat-label>
+                        <mat-select formControlName="farmId">
+                            <mat-option [value]="null">-- Ninguna --</mat-option>
+                            <mat-option *ngFor="let f of farms" [value]="f.id">
+                                {{f.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Peso Bruto (Kg)</mat-label>
+                        <input matInput type="number" formControlName="grossWeight">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Fecha de Inicio</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="startDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Asignar Operador</mat-label>
+                        <mat-select formControlName="operatorId">
+                            <mat-option *ngFor="let op of operators" [value]="op.id">
+                                {{op.fullName}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <div class="actions">
+                    <button mat-button type="button" routerLink="/dashboard">Cancelar</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="batchForm.invalid || isLoading">
+                        Crear Lote
+                    </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

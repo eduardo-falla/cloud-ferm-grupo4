@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="header">
+        <h1>Historial de Lotes</h1>
+        <p class="subtitle">Lotes Finalizados</p>
+    </div>
+
+    <div *ngIf="loading" class="loading">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="!loading && batches.length === 0" class="no-data">
+        <mat-icon>inbox</mat-icon>
+        <p>No se encontraron lotes finalizados</p>
+    </div>
+
+    <mat-card *ngIf="!loading && batches.length > 0">
+        <table mat-table [dataSource]="batches" class="mat-elevation-z2">
+            <!-- Code Column -->
+            <ng-container matColumnDef="code">
+                <th mat-header-cell *matHeaderCellDef>Código</th>
+                <td mat-cell *matCellDef="let batch">
+                    <strong>{{batch.code}}</strong>
+                </td>
+            </ng-container>
+
+            <!-- Variety Column -->
+            <ng-container matColumnDef="variety">
+                <th mat-header-cell *matHeaderCellDef>Variedad</th>
+                <td mat-cell *matCellDef="let batch">{{batch.cocoaVariety}}</td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef>Peso (kg)</th>
+                <td mat-cell *matCellDef="let batch">{{batch.grossWeight}}</td>
+            </ng-container>
+
+            <!-- Start Date Column -->
+            <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef>Fecha Inicio</th>
+                <td mat-cell *matCellDef="let batch">{{batch.startDate | date:'short'}}</td>
+            </ng-container>
+
+            <!-- End Date Column -->
+            <ng-container matColumnDef="endDate">
+                <th mat-header-cell *matHeaderCellDef>Fecha Fin</th>
+                <td mat-cell *matCellDef="let batch">{{batch.endDate | date:'short'}}</td>
+            </ng-container>
+
+            <!-- Operator Column -->
+            <ng-container matColumnDef="operator">
+                <th mat-header-cell *matHeaderCellDef>Operador</th>
+                <td mat-cell *matCellDef="let batch">{{batch.operatorName}}</td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let batch">
+                    <button mat-icon-button color="primary" (click)="viewBatch(batch.id)" matTooltip="Ver Detalles">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" *ngIf="isAdmin" (click)="downloadReport(batch.id)"
+                        matTooltip="Descargar Reporte">
+                        <mat-icon>download</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </mat-card>
+</div>

@@ -1,0 +1,41 @@
+# --- Java & Maven (Backend) ---
+target/
+*.class
+.mvn/
+*.jar
+*.war
+*.ear
+*.log
+.settings/
+.classpath
+.project
+.springBeans
+bin/
+logs/
+backend/help.md
+backend/mvnw
+backend/mvnw.cmd
+
+# --- Node & Angular (Frontend) ---
+node_modules/
+dist/
+.angular/
+.sass-cache/
+connect.lock
+coverage/
+libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+typings/
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- Local Environment ---
+.env
+.env.local
+cloudferm.db

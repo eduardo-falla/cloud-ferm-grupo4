@@ -1,0 +1,32 @@
+/* Import Angular Material Prebuilt Theme */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Global Styles */
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #f5f5f5;
+    /* Light grey background */
+}
+
+/* Basic layout for components */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Card styling improvements */
+mat-card {
+    margin-bottom: 20px;
+}
+
+/* Header styling */
+mat-toolbar {
+    margin-bottom: 20px;
+}
