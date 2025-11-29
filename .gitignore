@@ -38,4 +38,4 @@ Thumbs.db
 # --- Local Environment ---
 .env
 .env.local
-cloudferm.db
+
